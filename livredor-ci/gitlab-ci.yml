@@ -1,16 +1,23 @@
 stages:
   - tests
   - build
+  - deploy
 
 tester:
   stage: tests
   image: node:22-alpine
   script:
+    - npm ci
     - npm test
 
 construire-et-pousser:
   stage: build
   image: docker:cli
+  services:
+    - docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: "/certs"
   script:
     - docker version
     - echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
@@ -19,13 +26,23 @@ construire-et-pousser:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
-saluer-le-cluster:
+deployer-boutique:
   stage: deploy
   image:
     name: alpine/helm:4.3.0
     entrypoint: [""]
+  tags:
+    - k3d-local
+  variables:
+    KUBECONFIG: /tmp/kubeconfig
+  before_script:
+    - echo "$KUBECONFIG_CONTENT" | base64 -d > /tmp/kubeconfig
+    - chmod 600 /tmp/kubeconfig
   script:
-    - helm ls -A
+    - >-
+      helm upgrade --install prod ./livredor-kit
+      -n prod --create-namespace
+      --set image.tag=$CI_COMMIT_SHORT_SHA
+      --wait --timeout 5m
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-
