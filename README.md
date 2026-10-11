@@ -260,19 +260,4 @@ livredor-ci/
         └── ingress.yaml   # Ingress Traefik
 ```
 
-## Roadmap
-
-- [ ] Ajouter une page de confirmation après signature.
-- [ ] Échapper le HTML des messages (protection XSS) à l'affichage.
-- [ ] Ajouter une route `GET /health` dédiée pour les sondes.
-- [ ] Écrire un `compose.yml` pour lancer app + Postgres en une commande.
-- [ ] Paginer l'affichage quand le livre d'or devient long.
-
-## Contribuer
-
-1. Créez une branche depuis `main` : `git checkout -b ma-fonctionnalite`.
-2. Faites vos modifications, puis lancez `npm test` — la suite doit rester verte.
-3. Ouvrez une *Merge Request* vers `main` : le pipeline s'exécute automatiquement.
-
-Merci de garder la logique de validation dans `validation.js` et de l'accompagner de tests.
 
