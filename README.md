@@ -188,11 +188,11 @@ docker run -p 3000:3000 \
 
 Le pipeline GitLab (`.gitlab-ci.yml`) comporte trois étapes :
 
-| Étape | Job | Ce qu'il fait | Condition |
-|---|---|---|---|
-| `tests` | `tester` | `npm test` dans une image `node:22-alpine` | Toutes les branches |
-| `build` | `construire-et-pousser` | Build de l'image et push sur Docker Hub, taguée avec `$CI_COMMIT_SHORT_SHA` | Branche `main` |
-| `deploy` | `deployer-boutique` | `helm upgrade --install` du chart sur le namespace `prod`, avec `--wait --timeout 5m` | Branche `main` |
+| Stage | Job | Action |
+|---|---|---|
+| `tests` | `tester` | `npm test` dans `node:22-alpine`, sur toutes les branches |
+| `build` | `construire-et-pousser` | Build de l'image avec Docker-in-Docker, tag `livredor-ci:<SHA court>`, push sur Docker Hub, uniquement sur `main` |
+| `deploy` | `deployer-boutique` | `helm upgrade --install prod ./livredor-kit` dans le namespace `prod` (créé si absent), avec `image.tag` = SHA court du commit, `--wait --timeout 5m`. Exécuté sur le runner `k3d-local` avec le kubeconfig issu de `KUBECONFIG_CONTENT`, uniquement sur `main` |
 
 ### Variables CI/CD à définir dans GitLab
 
