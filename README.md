@@ -233,7 +233,7 @@ helm uninstall prod -n prod
 | Clé | Description |
 |---|---|
 | `replicaCount` | Nombre de réplicas de l'app |
-| `image.repository` | Dépôt de l'image (ex. `younes597/livredor-ci`) |
+| `image.repository` | Dépôt de l'image (ex. `younes/livredor-ci`) |
 | `image.tag` | Tag de l'image (écrasé par le pipeline avec le SHA du commit) |
 | `couleur` / `devise` | Variables de personnalisation injectées dans le conteneur |
 | `motdepasse` | Mot de passe Postgres (utilisé pour le secret) |
