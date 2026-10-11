@@ -1,0 +1,9 @@
+replicaCount: 2
+image:
+  repository: younes597/livredor-ci
+  tag: v2
+couleur: safran
+devise: je m appel younes
+motdepasse: promo001
+ingressClassName: traefik
+

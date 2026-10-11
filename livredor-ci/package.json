@@ -1,0 +1,13 @@
+{
+  "name": "livredor-promo001",
+  "version": "1.0.0",
+  "description": "Livre d'or de la promo 001, l'app du defi final Docker du sprint DevOps MeggieOnTheStack",
+  "main": "app.js",
+"scripts": {
+    "start": "node app.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "pg": "^8.11.5"
+  }
+}

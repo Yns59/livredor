@@ -1,0 +1,6 @@
+apiVersion: v2
+name: livredor-kit
+description: La recette complete de la boutique du livre d'or
+version: 0.1.0
+appVersion: "promo001"
+

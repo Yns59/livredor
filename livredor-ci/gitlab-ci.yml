@@ -1,0 +1,31 @@
+stages:
+  - tests
+  - build
+
+tester:
+  stage: tests
+  image: node:22-alpine
+  script:
+    - npm test
+
+construire-et-pousser:
+  stage: build
+  image: docker:cli
+  script:
+    - docker version
+    - echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+    - docker build -t "$DOCKERHUB_USER/livredor-ci:$CI_COMMIT_SHORT_SHA" .
+    - docker push "$DOCKERHUB_USER/livredor-ci:$CI_COMMIT_SHORT_SHA"
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
+saluer-le-cluster:
+  stage: deploy
+  image:
+    name: alpine/helm:4.3.0
+    entrypoint: [""]
+  script:
+    - helm ls -A
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
